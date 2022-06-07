@@ -5,30 +5,79 @@ info:
   title: "Amtsname: API Name"
 
 servers:
-  - url: "https://warnung.bund.de/api31"
+  - url: "https://www.gis-rest.nrw.de/grs/rest/statistik/zensus_2011"
 
 paths:
-  /dashboard/{AGS}.json:
+  /einwohner_sum.json:
     get:
       summary: Name des Endpoints
       responses:
-        '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Result'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
       parameters:
-        - in: path
+        - in: query
           required: true
-          name: AGS
+          name: data
           schema:
             type: string
-          description: Amtlicher Gebietsschlüssel - kann z.B. von [hier](https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json) bezogen werden. Die Letzten 7 Stellen müssen dabei mit "0000000" ersetzt werden, weil die Daten nur auf [Kreisebene](https://de.wikipedia.org/wiki/Amtlicher_Gemeindeschl%C3%BCssel) bereitgestellt werden. 
-          example: "example-parameter"
+          description: daten
+          example: '{"type": "Feature",  "geometry": {    "type": "Polygon","coordinates": [  [[  8.637597,  48.675728],[  8.626611,  48.599499],[  8.7145,  48.603131],[  8.637597,  48.675728]  ]]  },  "crs": {"type": "name","properties": { "name": "EPSG:4326"}  }}'
+    post:
+      summary: Zensus Einwohnerzahlen für ein Gebiet.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+      requestBody:
+        required: true
+        description: daten
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: "Feature"
+                geometry:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: "Polygon"
+                    coordinates:
+                      type: array
+                      items:
+                        type: array
+                        example:
+                          [
+                            [8.616714477539062, 49.89728832544083],
+                            [8.605728149414062, 49.84506757956392],
+                            [8.690185546875, 49.83842530390878],
+                            [8.69842529296875, 49.89419205992558],
+                            [8.616714477539062, 49.89728832544083],
+                          ]
+                crs:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: "name"
+                    properties:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: "EPSG:4326"
 
-          
-components: 
-    schemas:
-      Result:
-        type: string
+components:
+  schemas:
+    Result:
+      type: string
