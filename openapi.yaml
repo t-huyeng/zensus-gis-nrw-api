@@ -18,6 +18,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Result"
+        "400":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
       parameters:
         - in: query
           required: true
@@ -35,6 +42,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Result"
+        "400":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
       requestBody:
         required: true
         description: daten
@@ -80,4 +94,26 @@ paths:
 components:
   schemas:
     Result:
-      type: string
+      type: object
+      properties:
+        type:
+          type: string
+          example: "Feature"
+        properties:
+          type: object
+          properties:
+            einwohner:
+              type: number
+              example: 678584.2292663081
+            grid:
+              type: string
+              example: "1000m"
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 400
+        msg:
+          type: string
+          example: "Request with invalid (Geo)JSON syntax."
