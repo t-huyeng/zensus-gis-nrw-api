@@ -1,34 +1,132 @@
 openapi: "3.0.0"
 info:
-  description: "API Description"
+  description: "API for querying the Zensus 2011 population numbers."
   version: "1.0.0"
-  title: "Amtsname: API Name"
+  title: "Zensus API - Population numbers"
+  contact:
+    name: GIS Rest NRW
 
 servers:
-  - url: "https://warnung.bund.de/api31"
+  - url: "https://www.gis-rest.nrw.de/grs/rest/statistik/zensus_2011"
+
+tags:
+  - name: zensus
 
 paths:
-  /dashboard/{AGS}.json:
+  /einwohner_sum.json:
     get:
-      summary: Name of endpoint
+      operationId: getEinwohnerSum
+      tags:
+        - zensus
+      summary: Zensus Population for an area
+      description: TODO
       responses:
-        '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Result'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+        "400":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
       parameters:
-        - in: path
+        - in: query
           required: true
-          name: AGS
+          name: data
           schema:
             type: string
-          description: Official area key - can be retrieved from [here](https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json). The last 7 digits have to be replaced with "0000000" because data is only offered on the area level [Kreisebene](https://de.wikipedia.org/wiki/Amtlicher_Gemeindeschl%C3%BCssel). 
-          example: "example-parameter"
+          description: daten
+          example: '{"type": "Feature",  "geometry": {    "type": "Polygon","coordinates": [  [[  8.637597,  48.675728],[  8.626611,  48.599499],[  8.7145,  48.603131],[  8.637597,  48.675728]  ]]  },  "crs": {"type": "name","properties": { "name": "EPSG:4326"}  }}'
+    post:
+      operationId: postEinwohnerSum
+      tags:
+        - zensus
+      summary: Zensus Population for an area
+      description: TODO
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+        "400":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
-          
-components: 
-    schemas:
-      Result:
-        type: string
+      requestBody:
+        required: true
+        description: Data
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: "Feature"
+                geometry:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: "Polygon"
+                    coordinates:
+                      type: array
+                      items:
+                        type: array
+                        example:
+                          [
+                            [8.616714477539062, 49.89728832544083],
+                            [8.605728149414062, 49.84506757956392],
+                            [8.690185546875, 49.83842530390878],
+                            [8.69842529296875, 49.89419205992558],
+                            [8.616714477539062, 49.89728832544083],
+                          ]
+                crs:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: "name"
+                    properties:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: "EPSG:4326"
+
+components:
+  schemas:
+    Result:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "Feature"
+        properties:
+          type: object
+          properties:
+            einwohner:
+              type: number
+              example: 678584.2292663081
+            grid:
+              type: string
+              example: "1000m"
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 400
+        msg:
+          type: string
+          example: "Request with invalid (Geo)JSON syntax."
