@@ -1,16 +1,25 @@
 openapi: "3.0.0"
 info:
-  description: "API Description"
+  description: "API zur Abfrage der Zensus 2011 Einwohnerzahlen."
   version: "1.0.0"
-  title: "Amtsname: API Name"
+  title: "Zensus API - Einwohnerzahlen"
+  contact:
+    name: GIS Rest NRW
 
 servers:
   - url: "https://www.gis-rest.nrw.de/grs/rest/statistik/zensus_2011"
 
+tags:
+  - name: zensus
+
 paths:
   /einwohner_sum.json:
     get:
-      summary: Name des Endpoints
+      operationId: getEinwohnerSum
+      tags:
+        - zensus
+      summary: Zensus Einwohnerzahlen für ein Gebiet
+      description: TODO
       responses:
         "200":
           description: OK
@@ -34,7 +43,11 @@ paths:
           description: daten
           example: '{"type": "Feature",  "geometry": {    "type": "Polygon","coordinates": [  [[  8.637597,  48.675728],[  8.626611,  48.599499],[  8.7145,  48.603131],[  8.637597,  48.675728]  ]]  },  "crs": {"type": "name","properties": { "name": "EPSG:4326"}  }}'
     post:
-      summary: Zensus Einwohnerzahlen für ein Gebiet.
+      operationId: postEinwohnerSum
+      tags:
+        - zensus
+      summary: Zensus Einwohnerzahlen für ein Gebiet
+      description: TODO
       responses:
         "200":
           description: OK
