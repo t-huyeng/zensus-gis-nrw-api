@@ -35,7 +35,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
       parameters:
         - in: query
           required: true
@@ -63,7 +62,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
       requestBody:
         required: true
         description: daten
@@ -105,7 +103,6 @@ paths:
                         name:
                           type: string
                           example: "EPSG:4326"
-
 components:
   schemas:
     Result:
