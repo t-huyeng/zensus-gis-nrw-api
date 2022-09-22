@@ -33,6 +33,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+        "422":
+          description: Error - geometry is null
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGeo"
 
       parameters:
         - in: query
@@ -61,6 +67,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+        "422":
+          description: Error - geometry is null
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGeo"
 
       requestBody:
         required: true
@@ -130,3 +142,12 @@ components:
         msg:
           type: string
           example: "Request with invalid (Geo)JSON syntax."
+    ErrorGeo:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 422
+        msg:
+          type: string
+          example: "Parameter 'geometry' is null."
