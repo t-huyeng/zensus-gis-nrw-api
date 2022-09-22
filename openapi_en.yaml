@@ -1,11 +1,12 @@
 openapi: "3.0.0"
 info:
-  description: "API for querying the Zensus 2011 population numbers."
+  description: "API for querying the Zensus 2011 population figures. Returns the number of population of an area in Germany and the grid on which the calculation is based."
   version: "1.0.0"
-  title: "Zensus API - Population numbers"
+  title: "Zensus API -  Population numbers"
   contact:
-    name: GIS Rest NRW
-
+    name: Landesbetrieb IT.NRW
+    url: https://www.it.nrw/
+    email: service-desk@it.nrw.de
 servers:
   - url: "https://www.gis-rest.nrw.de/grs/rest/statistik/zensus_2011"
 
